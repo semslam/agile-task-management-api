@@ -1,0 +1,19 @@
+{
+  "name": "todo-list-api",
+  "version": "1.0.0",
+  "description": "Fooji Engineer todo list api task",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/semslam/todo-list-api.git"
+  },
+  "author": "Ibrahim Olanrewaju",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/semslam/todo-list-api/issues"
+  },
+  "homepage": "https://github.com/semslam/todo-list-api#readme"
+}
