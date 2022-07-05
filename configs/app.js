@@ -1,11 +1,12 @@
 const express = require("express");
 const cors = require("cors");
 const {Config} = require("./bootstrap");
-const connectDB = require("./mongodb")
+const connectDB = require("./mongodb");
+// const routes = require("../api/routes")
 
 
 class App {
- 
+   
   constructor() {
     const {HOST,PORT,ORIGIN,ENV} = Config;
     this.PORT = PORT;
@@ -26,14 +27,15 @@ class App {
     // parse requests of content-type - application/json
     this.app.use(express.json());  /* bodyParser.json() is deprecated */
     // parse requests of content-type - application/x-www-form-urlencoded
-    this.app.use(express.urlencoded({ extended: true }));   /* bodyParser.urlencoded() is deprecated */
-
-    this.app.get("/", (req, res) => {
-        res.status(200).send({ message: "Welcome to todo list API" })
-    });
-    
+    this.app.use(express.urlencoded({ extended: true}));   /* bodyParser.urlencoded() is deprecated */
     require("../api/routes")(this.app);
     
+    this.app.get('/', (req, res) => {
+        res.status(200).send({ message: "Welcome to todo list API" })
+    });
+    console.log("Route PATH=====>")
+    
+    console.log("Route PATH=====>")
     this.app.all('*', (req, res) => {
      res.status(404).send({ message: "Not Found" })
     });

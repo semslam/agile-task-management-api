@@ -1,9 +1,12 @@
 const express = require("express");
-const userRoute = require("./user/user.route");
+const userRoute = require("./users/user.route");
 const todoRoute = require("./todo/todo.route");
 
 module.exports = (app) => {
-    let router = express.Router();
-    app.use("/users",userRoute(router));
-    app.use("/todo",todoRoute(router));    
+  let router = express.Router();
+    console.log('===============')
+    
+    console.log("Base Route=====>");
+    app.use('/api/todo',todoRoute(router));  
+    app.use('/api/users',userRoute(router)); 
   };

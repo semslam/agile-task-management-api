@@ -8,7 +8,7 @@
     "start:qa":"export NODE_ENV=qa node server.js",
     "start:stg":"export NODE_ENV=stg node server.js",
     "start:prod":"export NODE_ENV=prod node server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --watchAll --detectOpenHandles"
   },
   "repository": {
     "type": "git",
