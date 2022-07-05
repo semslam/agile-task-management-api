@@ -4,6 +4,10 @@
   "description": "Fooji Engineer todo list api task",
   "main": "server.js",
   "scripts": {
+    "start:dev":"export NODE_ENV=dev && nodemon server.js",
+    "start:qa":"export NODE_ENV=qa node server.js",
+    "start:stg":"export NODE_ENV=stg node server.js",
+    "start:prod":"export NODE_ENV=prod node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
