@@ -6,7 +6,7 @@ const {MONGODB} = Config;
 const {PENDING,PROGRESS,REVIEW,COMPLETE} = Stages;
 const todoSchema = mongoose.Schema({
     userId: {type: String,required: true},
-    summary: {type: String,required: true},
+    summary: {type: String,required: true,unique: true},
     description: {type: String,required: true},
     stage: {type: String,required: true, enum:[PENDING,PROGRESS,REVIEW,COMPLETE],default: PENDING},
     cardColor: {type: String,required: true, default: '#cddc39'},

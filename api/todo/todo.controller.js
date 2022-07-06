@@ -1,11 +1,16 @@
 const todoService = require("../../services/todoServices");
+const {successResponse,errorResponse} = require("../../response/responseHandler");
+const {HttpCodes} = require("../../libraries/enums")
 const createTodo = async (req, res)=>{
-    //TODO
-    console.log(req.body);
-    let todo = req.body;
-    todo.userId = "wehi2728773862376826";
-    todoService.insert(todo);
-    res.status(201).send(todo);
+    try {
+        console.log(req.body);
+        let todo = req.body;
+        todo.userId = "wehi2728773862376826";
+        await todoService.insert({});
+        successResponse(res,HttpCodes.CREATED,"Todo was successful created!!") 
+    } catch (err) {
+        errorResponse(res,err.httpCode,err.message);
+    }
 }
 
 const updateTodo = async (req,res)=>{
