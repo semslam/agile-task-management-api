@@ -33,5 +33,6 @@ const logoutUser = async (req,res)=>{
 module.exports = {
     createUser,
     loginUser,
-    logoutUser
+    logoutUser,
+    updateUser
 }

@@ -2,17 +2,17 @@ const express = require("express");
 const cors = require("cors");
 const {Config} = require("./bootstrap");
 const connectDB = require("./mongodb");
-// const routes = require("../api/routes")
+const {successResponse, errorResponse} = require("../response/responseHandler");
+const {HttpCodes, ErrorCodes} = require("../libraries/enums");
 
 
 class App {
    
   constructor() {
-    const {HOST,PORT,ORIGIN,ENV} = Config;
-    this.PORT = PORT;
-    this.HOST = HOST;
-    this.ORIGIN = ORIGIN;
-    this.ENVIRONMENT = ENV;
+    this.PORT = Config.PORT;
+    this.HOST = Config.HOST;
+    this.ORIGIN = Config.ORIGIN;
+    this.ENVIRONMENT = Config.ENV;
     connectDB();
     this.app = express();
     this.config();   
@@ -28,14 +28,15 @@ class App {
     this.app.use(express.json());  /* bodyParser.json() is deprecated */
     // parse requests of content-type - application/x-www-form-urlencoded
     this.app.use(express.urlencoded({ extended: true}));   /* bodyParser.urlencoded() is deprecated */
-    require("../api/routes")(this.app);
     
     this.app.get('/', (req, res) => {
-        res.status(200).send({ message: "Welcome to todo list API" })
+        successResponse(res,HttpCodes.OK,"Welcome to todo list API");
     });
+
+    require("../api/routes")(this.app);
     
     this.app.all('*', (req, res) => {
-     res.status(404).send({ message: "Not Found" })
+     errorResponse(res,ErrorCodes.NOT_FOUND,"Not Found")
     });
 
   }
