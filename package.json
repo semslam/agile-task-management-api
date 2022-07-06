@@ -4,10 +4,10 @@
   "description": "Fooji Engineer todo list api task",
   "main": "server.js",
   "scripts": {
-    "start:dev":"export NODE_ENV=dev && nodemon server.js",
-    "start:qa":"export NODE_ENV=qa node server.js",
-    "start:stg":"export NODE_ENV=stg node server.js",
-    "start:prod":"export NODE_ENV=prod node server.js",
+    "start:dev": "export NODE_ENV=dev && nodemon server.js",
+    "start:qa": "export NODE_ENV=qa && node test/*.js",
+    "start:stg": "export NODE_ENV=stg node server.js",
+    "start:prod": "export NODE_ENV=prod node server.js",
     "test": "jest --watchAll --detectOpenHandles"
   },
   "repository": {
@@ -31,6 +31,7 @@
   },
   "devDependencies": {
     "jest": "^28.1.2",
+    "mongodb-memory-server": "^8.7.2",
     "nodemon": "^2.0.18",
     "supertest": "^6.2.4"
   }

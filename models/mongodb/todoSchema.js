@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 const {Config} = require("../../configs/bootstrap")
 // console.log(MONGODB)
 const {MONGODB} = Config;
-console.log(MONGODB)
 const todoSchema = mongoose.Schema({
     userId: {type: String,required: true},
     summary: {type: String,required: true},

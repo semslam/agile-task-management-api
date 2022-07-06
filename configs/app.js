@@ -33,9 +33,7 @@ class App {
     this.app.get('/', (req, res) => {
         res.status(200).send({ message: "Welcome to todo list API" })
     });
-    console.log("Route PATH=====>")
     
-    console.log("Route PATH=====>")
     this.app.all('*', (req, res) => {
      res.status(404).send({ message: "Not Found" })
     });

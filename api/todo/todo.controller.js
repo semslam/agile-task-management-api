@@ -9,14 +9,33 @@ const createTodo = async (req, res)=>{
 }
 
 const updateTodo = async (req,res)=>{
+   const filter ={
+        userId:"wehi2728773862376826",
+        _id:"987247478648746478"
+    }
+    let todo = req.body; 
+    todoService.updateOne(filter,todo);
     res.status(200).send({message:"List out TODO"})
 }
 
 const getTodo = async (req,res)=>{
+    const filter ={
+        userId:"wehi2728773862376826",
+        _id:"987247478648746478"
+    }
+    todoService.findOneByParams(filter);
+    res.status(200).send({message:"List out TODO"})
+}
+const getAllTodo = async (req,res)=>{
+    const filter ={
+        userId:"wehi2728773862376826",
+    }
+    todoService.findAll(filter);
     res.status(200).send({message:"List out TODO"})
 }
 
 const deleteTodo = async (req,res)=>{
+    todoService.findAll("todoId");
     res.status(200).send({message:"List out TODO"})
 }
 
@@ -25,5 +44,6 @@ module.exports = {
     createTodo,
     updateTodo,
     getTodo,
+    getAllTodo,
     deleteTodo
 }
