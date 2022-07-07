@@ -6,6 +6,7 @@ const {successResponse, errorResponse} = require("../response/responseHandler");
 const {HttpCodes, ErrorCodes} = require("../libraries/enums");
 
 
+
 class App {
    
   constructor() {
@@ -32,8 +33,8 @@ class App {
     this.app.get('/', (req, res) => {
         successResponse(res,HttpCodes.OK,"Welcome to todo list API");
     });
-
-    require("../api/routes")(this.app);
+     
+    require("../routes")(this.app);
     
     this.app.all('*', (req, res) => {
      errorResponse(res,ErrorCodes.NOT_FOUND,"Not Found")

@@ -4,7 +4,8 @@ const todoRoute = require("./todo/todo.route");
 
 module.exports = (app) => {
   let router = express.Router();
-   
-    app.use('/api/todo',todoRoute(router));  
-    app.use('/api/users',userRoute(router)); 
+    
+  app.use('/users',userRoute(router));
+    app.use('/todo',todoRoute(router)); 
+    return app; 
   };

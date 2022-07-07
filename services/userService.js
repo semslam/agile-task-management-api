@@ -1,24 +1,61 @@
-const {create,update,findOne,del} = require("../repositories/todoRepository");
+const {create,update,findOne,del} = require("../repositories/userRepository");
+const {isObjEmpty,isString} = require("../libraries/utilities");
 const ErrorHandler = require("../libraries/errorHandler")
 const {ErrorCodes} = require("../libraries/enums");
+const {hashPassword,isPasswordMatch}= require("../libraries/passwordHashing");
+const {generateAccessToken} = require("../libraries/jwtEncryptAndDecrypt");
 
 const insert = async (user)=>{
     if(isObjEmpty(user)){
         throw new ErrorHandler("USER object is empty!!",ErrorCodes.MISSING_PARAMETER)
     }
-    await create(user);
-    return true
+    user.password = await hashPassword(user.password) 
+    const usr =  await create(user);
+    delete usr.password
+    console.log(usr.password)
+    return usr;
+}
 
+const login = async (query)=>{
+    if(isObjEmpty(query)){
+        throw new ErrorHandler("USER object is empty!!",ErrorCodes.MISSING_PARAMETER)
+    }
+    const user = await findOne({username:query.username});
+    if(isObjEmpty(user)){
+        throw new ErrorHandler("User record not found!",ErrorCodes.NOT_FOUND)
+    }
+   const result = await isPasswordMatch(query.password,user.password)
+   if(!result)throw new ErrorHandler("Wrong user login details!",ErrorCodes.FORBIDDEN)
+   const customUser = {
+    id:user._id,  
+    username:user.username,
+    user:user.name
+   }
+   const token = generateAccessToken(customUser)
+   if(!isString(token))throw new ErrorHandler("Missing access token!",ErrorCodes.FORBIDDEN);
+   await updateOne({_id:user._id},{isActive:true,modifiedAt: new Date()});
+   return token;
 }
 
 const updateOne = async (filter,user)=>{
     if(isObjEmpty(filter) && isObjEmpty(user)){
         throw new ErrorHandler("USER object is empty!!",ErrorCodes.MISSING_PARAMETER)
     }
-    user.modifiedAt;
-    await update(filter,user);
-    return true
+    user.modifiedAt = new Date();
+    return await update(filter,user);
+    
 
+}
+
+const logoutProcess = async (filter)=>{
+    if(isObjEmpty(filter)){
+        throw new ErrorHandler("USER object is empty!!",ErrorCodes.MISSING_PARAMETER)
+    }
+   const user = {
+        isActive:false,
+        modifiedAt: new Date()
+    };
+    return await update(filter,user);
 }
 
 const findOneByParams = async (query)=>{
@@ -35,4 +72,4 @@ const deleteOne = async (query)=>{
 }
 
 
-module.exports = {insert,updateOne,findOneByParams,deleteOne}
+module.exports = {insert,updateOne,findOneByParams,deleteOne,login,logoutProcess}

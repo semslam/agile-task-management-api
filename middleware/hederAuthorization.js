@@ -1,34 +1,34 @@
-const jwt = require("jsonwebtoken");
-const {successResponse,errorResponse} = require("../response/apiResponse");
-require("dotenv/config");
-const {ErrorCodes} = require("../libraries/sustainedValues");
-const {findOne} = require("../repositories/UserRep")
+const {errorResponse} = require("../response/responseHandler");
+const {ErrorCodes} = require("../libraries/enums");
+const {isEmpty} = require("../libraries/utilities");
+const {findOneByParams} = require("../services/userService")
+const {decryptToken} = require("../libraries/jwtEncryptAndDecrypt")
 
-const  authenticateToken = (req, res, next)=> {
+const  authenticateToken = async (req, res, next)=> {
   try {
-    const token = getToken(req, res);
-   
-    //fetch user access token secret from database
-    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, async (err, user) => {
-      if(err) return errorResponse(res,ErrorCodes.FORBIDDEN, err.message || "Wrong Token Authorization Header");
-      
-      // This will be expensive for the app on each request  
-     const fetchUser = await findOne({username:user.username});
-      if(!fetchUser) return errorResponse(res,ErrorCodes.NOT_FOUND, err.message);
-      else if(user.id !== fetchUser.id) return errorResponse(res,ErrorCodes.NOT_FOUND, "Wrong user information");
-
-      next();
-    })
-  } catch (err) {
-    return errorResponse(res,ErrorCodes.INTERNAL_ERROR, err.message);
-  }
+        const token = getToken(req, res);
+    
+        //fetch user access token secret from database
+        const user = await decryptToken(token)
+        //This approach is bad, it can slow the user request
+        const fetchUser = await findOneByParams({username:user.username});
+        if(!fetchUser.isActive){
+            errorResponse(res,ErrorCodes.FORBIDDEN, "User need to login!");
+        }
+        req.user = fetchUser;
+        next();
+    } catch (err) {
+        errorResponse(res,ErrorCodes.INTERNAL_ERROR, err.message);
+    }
     
   }
 
   const getToken =(req, res)=>{
     const authHeader = req.headers['authorization']
+
+    if (isEmpty(authHeader)) errorResponse(res,ErrorCodes.NOT_FOUND,"Missing Authorization Header"); 
     const token = authHeader && authHeader.split(' ')[1]
-    if (token == null) return errorResponse(res,ErrorCodes.NOT_FOUND,"Missing Authorization Header"); 
+    if (isEmpty(token)) errorResponse(res,ErrorCodes.NOT_FOUND,"Missing Signature Header"); 
     return token;
   }
 

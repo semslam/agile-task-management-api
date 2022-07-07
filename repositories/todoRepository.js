@@ -5,7 +5,7 @@ const { ErrorCodes } = require("../libraries/enums");
 const create = async (query) => {
   try {
     const todo = await todoSchema.create(query);
-    if (!todo)throw new ErrorHandler("Can not create TODO record!",ErrorCodes.MISSING_PARAMETER);
+    if(!todo)throw new ErrorHandler("Can not create TODO record!",ErrorCodes.MISSING_PARAMETER);
     return todo;
   } catch (err) {
     throw new ErrorHandler(err.message,err.httpCode || ErrorCodes.INTERNAL_ERROR);
@@ -17,8 +17,7 @@ const update = async (filter, update) => {
       returnOriginal: false,
     });
     console.log(todo);
-    if (!todo)
-      throw new ErrorHandler("TODO record can not be updated!",ErrorCodes.MISSING_PARAMETER);
+    if (!todo) throw new ErrorHandler("TODO record can not be updated!",ErrorCodes.MISSING_PARAMETER);
     return todo;
   } catch (err) {
     throw new ErrorHandler(err.message,err.httpCode || ErrorCodes.INTERNAL_ERROR);

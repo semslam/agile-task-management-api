@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-const {MONGODB} = require("../../configs/bootstrap");
-
+const {Config} = require("../../configs/bootstrap");
+const {MONGODB} = Config;
 const userSchema = mongoose.Schema({
     name: {type: String,required: true},
     username: {type: String,required: true,unique: true,immutable: true},

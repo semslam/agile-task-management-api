@@ -1,47 +1,78 @@
 const todoService = require("../../services/todoServices");
 const {successResponse,errorResponse} = require("../../response/responseHandler");
-const {HttpCodes} = require("../../libraries/enums")
+const {HttpCodes,ErrorCodes} = require("../../libraries/enums")
+const {isString} = require("../../libraries/utilities")
 const createTodo = async (req, res)=>{
     try {
         console.log(req.body);
+        console.log("This todo controller");
+        console.log(req.user);
         let todo = req.body;
-        todo.userId = "wehi2728773862376826";
-        await todoService.insert({});
-        successResponse(res,HttpCodes.CREATED,"Todo was successful created!!") 
+        todo.userId = req.user._id;
+        const todoResult = await todoService.insert(todo);
+        successResponse(res,HttpCodes.CREATED,"Todo was successful created!!",todoResult);
     } catch (err) {
-        errorResponse(res,err.httpCode,err.message);
+        errorResponse(res,err.httpCode || ErrorCodes.FORBIDDEN,err.message);
     }
 }
 
 const updateTodo = async (req,res)=>{
-   const filter ={
-        userId:"wehi2728773862376826",
-        _id:"987247478648746478"
+    try {
+
+        // req.params.id
+        console.log(req.body)
+        console.log(req.params.id)
+        if(!isString(req.params.id)) errorResponse(res,ErrorCodes.MISSING_PARAMETER,"Todo id can't be empty!");
+        const filter ={
+            userId:req.user._id,
+            _id:req.params.id
+        }
+        let todo = req.body;
+        const todoResult = await todoService.updateOne(filter,req.body);
+        successResponse(res,HttpCodes.OK,"Todo was successful updated!!",todoResult);
+    } catch (err) {
+        errorResponse(res,err.httpCode|| ErrorCodes.FORBIDDEN,err.message);
     }
-    let todo = req.body; 
-    todoService.updateOne(filter,todo);
-    res.status(200).send({message:"List out TODO"})
 }
 
 const getTodo = async (req,res)=>{
-    const filter ={
-        userId:"wehi2728773862376826",
-        _id:"987247478648746478"
+    
+    try {
+
+        if(!isString(req.params.id)) errorResponse(res,ErrorCodes.MISSING_PARAMETER,"Todo id can't be empty!");
+        const filter ={
+            userId:req.user._id,
+            _id:req.params.id
+        }
+        const todoResult = await todoService.findOneByParams(filter);
+        successResponse(res,HttpCodes.OK,"Todo was fetched successfully!!",todoResult);
+    } catch (err) {
+        errorResponse(res,err.httpCode|| ErrorCodes.FORBIDDEN,err.message);
     }
-    todoService.findOneByParams(filter);
-    res.status(200).send({message:"List out TODO"})
 }
 const getAllTodo = async (req,res)=>{
-    const filter ={
-        userId:"wehi2728773862376826",
+    try {
+        const filter ={
+            userId:req.user._id,
+        }
+        const todoResult = await todoService.findAll(filter);
+        successResponse(res,HttpCodes.OK,"Todo was fetched successfully!!",todoResult);
+    } catch (err) {
+        errorResponse(res,err.httpCode|| ErrorCodes.FORBIDDEN,err.message);
     }
-    todoService.findAll(filter);
-    res.status(200).send({message:"List out TODO"})
 }
 
 const deleteTodo = async (req,res)=>{
-    todoService.findAll("todoId");
-    res.status(200).send({message:"List out TODO"})
+    try {
+        const filter ={
+            userId:req.user._id,
+            _id:req.params.id
+        }
+        await todoService.deleteOne(filter);
+        successResponse(res,HttpCodes.OK,"Todo was deleted successfully!!");
+    } catch (err) {
+        errorResponse(res,err.httpCode|| ErrorCodes.FORBIDDEN,err.message);
+    }
 }
 
 

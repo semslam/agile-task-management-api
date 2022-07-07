@@ -40,7 +40,7 @@ const ErrorCodes = Object.freeze({
   });
 
   const Stages = Object.freeze({
-    PENDING:"pending",PROGRESS:"progress",REVIEW:"review",COMPLETE:"complete"
+    PENDING:"pending",PROGRESS:"progress",REVIEW:"review",COMPLETE:"completed"
   })
 
 module.exports ={

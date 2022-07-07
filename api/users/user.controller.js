@@ -1,32 +1,55 @@
 const userService = require("../../services/userService");
+const {successResponse,errorResponse} = require("../../response/responseHandler");
+const {HttpCodes} = require("../../libraries/enums")
 
 const createUser = async (req, res)=>{
-    console.log(req.body);
-    let user = req.body;
-    userService.insert(user);
-    res.status(201).send(user);
+
+    try {
+        console.log(req.body);
+        console.log("This user controller");
+        const user = req.body;
+       const userResult = await userService.insert(user);
+        successResponse(res,HttpCodes.CREATED,"USER was successful created!!",userResult) 
+    } catch (err) {
+        errorResponse(res,err.httpCode,err.message);
+    }
 }
 
 
 const updateUser = async (req, res)=>{
-    console.log(req.body);
-    let user = req.body;
-    userService.updateOne(user);
-    res.status(200).send(user);
+    try {
+        const filter ={
+            userId:req.user._id,
+        }
+        const user = req.body;
+       const userResult = await userService.updateOne(filter,user);
+      successResponse(res,HttpCodes.OK,"User was successful updated!",userResult) 
+    } catch (err) {
+        errorResponse(res,err.httpCode,err.message);
+    }
 }
 
 const loginUser = async (req,res)=>{
-    console.log(req.body);
-    const filter ={
-        user:"wehi2728773862376826",
-        password:"987247478648746478"
+    try {
+        console.log(req.body);
+        let loginDetails = req.body;
+      const userToken = await userService.login(loginDetails);
+        successResponse(res,HttpCodes.OK,"User was successful login!",{userAccessToken:userToken}) 
+    } catch (err) {
+        errorResponse(res,err.httpCode,err.message);
     }
-    userService.findOneByParams(filter);
-    res.status(200).send(user);
 }
 
 const logoutUser = async (req,res)=>{
-    
+    try {
+        const filter ={
+            userId:req.user._id,
+        }
+      await userService.logoutProcess(filter);
+      successResponse(res,HttpCodes.OK,"User was successful logout!") 
+    } catch (err) {
+        errorResponse(res,err.httpCode,err.message);
+    }
 }
 
 
