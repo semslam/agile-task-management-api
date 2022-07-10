@@ -4,10 +4,13 @@ const {isEmpty} = require("../libraries/utilities")
 const STATUS_FAILED = "Failed";
 const STATUS_SUCCESS = "Successful";
 
-const successResponse = (res,HTTP_SUCCESS,successMessage, data = null) =>{
+const successResponse = (req, res,HTTP_SUCCESS,successMessage, data = null) =>{
+    
     let response = {
         timestamp: convertDateToTimeStamp(new Date()),
         code: HTTP_SUCCESS,
+        path:req.originalUrl,
+        method:req.method,
         status:STATUS_SUCCESS,
         message:successMessage
       }
@@ -18,11 +21,13 @@ const successResponse = (res,HTTP_SUCCESS,successMessage, data = null) =>{
    return res.status(HTTP_SUCCESS).send(response);
 }
 
-const errorResponse = (res,HTTP_ERROR,errorMessage) =>{
+const errorResponse = (req, res,HTTP_ERROR,errorMessage) =>{
     
       const response = {
         timestamp: convertDateToTimeStamp(new Date()),
         code: HTTP_ERROR,
+        path:req.originalUrl,
+        method:req.method,
         status:STATUS_FAILED,
         message:errorMessage
       }
@@ -32,11 +37,13 @@ const errorResponse = (res,HTTP_ERROR,errorMessage) =>{
    return res.status(HTTP_ERROR).send(response);    
 }
 
-const payloadValidateErrorResponse = (res,next,error) =>{
+const payloadValidateErrorResponse = (req, res,next,error) =>{
     if(!isEmpty(error)){
         const response = {
             timestamp: convertDateToTimeStamp(new Date()),
             code: 422,
+            path:req.originalUrl,
+            method:req.method,
             status:STATUS_FAILED,
             message:error.details[0].message
           }

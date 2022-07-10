@@ -7,18 +7,18 @@ const {decryptToken} = require("../libraries/jwtEncryptAndDecrypt")
 const  authenticateToken = async (req, res, next)=> {
   try {
         const token = getToken(req, res);
-    
+        
+        const user = await decryptToken(token);
         //fetch user access token secret from database
-        const user = await decryptToken(token)
         //This approach is bad, it can slow the user request
         const fetchUser = await findOneByParams({username:user.username});
         if(!fetchUser.isActive){
-            errorResponse(res,ErrorCodes.FORBIDDEN, "User need to login!");
+            errorResponse(req, res,ErrorCodes.UNAUTHORIZED, "User is not Unauthorized, Please login!");
         }
         req.user = fetchUser;
         next();
     } catch (err) {
-        errorResponse(res,ErrorCodes.INTERNAL_ERROR, err.message);
+        errorResponse(req, res,err.httpCode || ErrorCodes.INTERNAL_ERROR, err.message);
     }
     
   }
@@ -26,9 +26,9 @@ const  authenticateToken = async (req, res, next)=> {
   const getToken =(req, res)=>{
     const authHeader = req.headers['authorization']
 
-    if (isEmpty(authHeader)) errorResponse(res,ErrorCodes.NOT_FOUND,"Missing Authorization Header"); 
-    const token = authHeader && authHeader.split(' ')[1]
-    if (isEmpty(token)) errorResponse(res,ErrorCodes.NOT_FOUND,"Missing Signature Header"); 
+    if (isEmpty(authHeader)) errorResponse(req, res,ErrorCodes.UNAUTHORIZED,"Unauthorized Access"); 
+    const token = authHeader && authHeader.split(' ')[1];
+    if (isEmpty(token)) errorResponse(req, res,ErrorCodes.UNAUTHORIZED,"Missing Signature Header"); 
     return token;
   }
 

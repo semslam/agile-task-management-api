@@ -11,10 +11,15 @@ const {isEmpty,
     getType,
     isFalse,
     isNull,
-    hasValue,} = require("../libraries/utilities");
+    hasValue,
+    removeUndefineInObj,
+    isNumeric, 
+    isObjectContainUndefine} = require("../libraries/utilities");
   
   describe('validator Test', () => {
     const obj = {valueNotSet: '', valueSet: 'value'};
+    const obj2 = {valueUndefine:undefined, valueSet: 'value'};
+    const objVerification = {valueSet: 'value'};
     const booleanVal = true;
     const booleanStr = 'true';
     const booleanStrFalse = 'false';
@@ -184,6 +189,9 @@ const {isEmpty,
     test('Test isNullOrUndefinedType ', () => {
       expect(isNullOrUndefinedType(null)).toEqual('null');
       expect(isNullOrUndefinedType(undefined)).toEqual('undefined');
+      expect(isNullOrUndefinedType("undefined")).toEqual('string');
+      expect(isNullOrUndefinedType(34)).toEqual('number');
+      expect(isNullOrUndefinedType({})).toEqual('object');
     });
     test('Test isObjEmpty ', () => {
       expect(isObjEmpty({})).toBeTruthy();
@@ -191,6 +199,48 @@ const {isEmpty,
       expect(isObjEmpty(1234)).toBeTruthy();
       expect(isObjEmpty([])).toBeTruthy();
     });
+
+    test('Test removeUndefineInObj ', () => {
+        expect(removeUndefineInObj({})).toBeTruthy();
+        expect(isNullOrUndefinedType({})).toEqual('object');
+        expect(removeUndefineInObj(obj2)).toEqual(objVerification);
+        expect(removeUndefineInObj(obj)).not.toEqual(objVerification);
+        expect(removeUndefineInObj(1234)).toBeTruthy();
+        expect(removeUndefineInObj([])).toBeTruthy();
+      });
+
+      test('Test isObjectContainUndefine ', () => {
+        expect(isObjectContainUndefine({})).not.toBeTruthy();
+        expect(isObjectContainUndefine({})).toBeFalsy();
+        expect(isObjectContainUndefine({})).toBe(0);
+        expect(isObjectContainUndefine(obj2)).toBe(1);
+        expect(isObjectContainUndefine(obj)).not.toBeFalsy();
+        expect(isObjectContainUndefine(obj)).toBe(1);
+        expect(isObjectContainUndefine(1234)).toBeFalsy();
+        expect(isObjectContainUndefine([])).toBeFalsy();
+      });
+
+      test('Test isNumeric ', () => {
+       
+        expect(isNumeric('')).toBeFalsy();
+        expect(isNumeric()).toBeFalsy();
+        expect(isNumeric(obj)).toBeFalsy();
+        expect( isNumeric([])).toBeFalsy();
+        expect( isNumeric({})).toBeFalsy();
+        expect( isNumeric('1')).toBeTruthy();
+        expect( isNumeric('0')).toBeTruthy();
+        expect( isNumeric('TRUE')).toBeFalsy();
+        expect( isNumeric('FALSE')).toBeFalsy();
+        expect( isNumeric(booleanStr)).toBeFalsy();
+        expect( isNumeric(booleanVal)).toBeFalsy();
+        expect( isNumeric(booleanStrFalse)).toBeFalsy();
+        expect( isNumeric(booleanVal)).toBeFalsy();
+    
+        expect( isNumber(boolInt)).toBeTruthy();
+        expect( isNumber(boolIntFalse)).toBeTruthy();
+        expect( isNumber(1234)).toBeTruthy();
+      });
+
   
   });
   

@@ -1,10 +1,10 @@
 /**
- * Will let you know if this is a null or undefined value
+ * Check if the felid is a null or undefined or empty string value
  * @param {*} value
  * @return {boolean}
  */
 const isEmpty = (value) => {
-  if (value === undefined || !value) {
+  if (value === undefined || !value ||value === "") {
     return true;
   }
   return value === null;
@@ -19,17 +19,27 @@ const isObjEmpty = (obj) =>{
   return Object.keys(obj).length === 0;
 };
 
-
   /**
    * isArray returns boolean true value if object is a array type
    * @param  {object} obj
    * @return {boolean} result - result of type of check
    */
-const isArray = (obj)=>{
-  if (!obj) {
-    return false;
-  }
-  return Array.isArray(obj);
+   const isArray = (obj)=>{
+    if (!obj) {
+      return false;
+    }
+    return Array.isArray(obj);
+  };
+
+  /**
+   * Check if a felid is an object
+   * @param {object} obj 
+   * @returns returns boolean true if the field is an object type
+   */
+const isObject = (obj)=>{
+  if (typeof obj === 'object') return true;
+  
+  return false;
 };
 
 /**
@@ -144,7 +154,7 @@ const isFalse = (value) => {
 };
 
 /**
- * IsString returns boolean true valiue if object is a string type
+ * IsString returns boolean true value if the field is a string type
  * @param  {any} value - object to confirm if string type
  * @return {boolean} result - result of type of check
  */
@@ -155,17 +165,26 @@ const isString = (value) => {
 /**
  * Checks if the type of value is of number
  * @param  {*} value
- * @return {boolean} result - result of type of check
+ * @return {boolean} return true if the value is a number
  */
 const isNumber = (value) => {
   return getType(value) === 'number' && !isNaN(value)? true : false;
 };
 /**
- * Remove undefine from object and return new object
+ * It check if the value is a numeric
+ * @param {*} value 
+ * @returns {boolean} return true if the value is a numeric
+ */
+const isNumeric = (value) => {
+  return !isNaN(parseFloat(value)) && isFinite(value);
+}
+/**
+ * Remove undefine value from the object property and return new object
  * @param {Object} obj 
  * @returns {Object} obj
  */
 const removeUndefineInObj =(obj)=>{
+  if(isObjEmpty(obj)) return obj;
   for (const key in obj) {
    if (obj[key] === undefined) {
      delete obj[key];
@@ -177,10 +196,12 @@ const removeUndefineInObj =(obj)=>{
  /**
  * Check if object keys are undefine 
  * @param {Object} obj 
- * @returns {Boolean} true or false
+ * @returns {Boolean} return zero or false if no undefined
  */
-const isObjectKeyUndefine =(obj)=>{
+const isObjectContainUndefine =(obj)=>{
+  
   let isUndefined = 0;
+  if(isObjEmpty(obj)) return isUndefined;
   for (const key in obj) {
    if (obj[key] !== undefined) {
     isUndefined =+1;
@@ -205,6 +226,8 @@ module.exports ={
   getType,
   isNull,
   hasValue,
+  isNumeric,
   removeUndefineInObj,
-  isObjectKeyUndefine
+  isObjectContainUndefine,
+  isObject
 };

@@ -3,11 +3,16 @@ const {isObjEmpty} = require("../libraries/utilities");
 const ErrorHandler = require("../libraries/errorHandler")
 const {ErrorCodes,Stages} = require("../libraries/enums");
 
+
 const insert = async (todo)=>{
     if(isObjEmpty(todo))
         throw new ErrorHandler("TODO object is empty!!",ErrorCodes.MISSING_PARAMETER)
 
     return await create(todo);
+    // delete todoRecord.__v;
+    // todoRecord.id = todoRecord._id
+    // delete todoRecord._id;
+    // return todoRecord
 }
 //update process
 const updateOne = async (filter,todo)=>{
@@ -36,7 +41,7 @@ const deleteOne = async (query)=>{
     throw new ErrorHandler("TODO query parameter is messing!!",ErrorCodes.MISSING_PARAMETER)
     const isDelete =  await del(query);
 
-    if(!isDelete.deletedCount) throw new ErrorHandler("TODO not delete!",ErrorCodes.MISSING_PARAMETER);
+    if(!isDelete.deletedCount) throw new ErrorHandler("TODO does not delete!",ErrorCodes.MISSING_PARAMETER);
     return isDelete;
 }
 

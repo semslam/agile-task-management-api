@@ -9,7 +9,7 @@ const addTodoValidateReq = (req,res,next) =>{
         cardColor:Joi.string().regex(/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/).optional()
       });
     const {error} = schema.validate(req.body);
-    payloadValidateErrorResponse(res,next,error); 
+    payloadValidateErrorResponse(req, res,next,error); 
 }
 
 const updateTodoValidateReq = (req,res,next) =>{
@@ -20,7 +20,7 @@ const updateTodoValidateReq = (req,res,next) =>{
         stage: Joi.string().valid(Stages.COMPLETE,Stages.PENDING,Stages.PROGRESS,Stages.REVIEW).optional(),
       });
     const {error} = schema.validate(req.body);
-    payloadValidateErrorResponse(res,next,error); 
+    payloadValidateErrorResponse(req,res,next,error); 
 }
 
 

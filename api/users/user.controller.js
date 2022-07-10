@@ -9,23 +9,24 @@ const createUser = async (req, res)=>{
         console.log("This user controller");
         const user = req.body;
        const userResult = await userService.insert(user);
-        successResponse(res,HttpCodes.CREATED,"USER was successful created!!",userResult) 
+        successResponse(req, res,HttpCodes.CREATED,"User was successful created!!",userResult) 
     } catch (err) {
-        errorResponse(res,err.httpCode,err.message);
+        errorResponse(req,res,err.httpCode,err.message);
     }
 }
 
 
 const updateUser = async (req, res)=>{
     try {
+
         const filter ={
             userId:req.user._id,
         }
         const user = req.body;
        const userResult = await userService.updateOne(filter,user);
-      successResponse(res,HttpCodes.OK,"User was successful updated!",userResult) 
+      successResponse(req,res,HttpCodes.OK,"User was successful updated!",userResult) 
     } catch (err) {
-        errorResponse(res,err.httpCode,err.message);
+        errorResponse(req,res,err.httpCode,err.message);
     }
 }
 
@@ -34,9 +35,10 @@ const loginUser = async (req,res)=>{
         console.log(req.body);
         let loginDetails = req.body;
       const userToken = await userService.login(loginDetails);
-        successResponse(res,HttpCodes.OK,"User was successful login!",{userAccessToken:userToken}) 
+
+        successResponse(req,res,HttpCodes.OK,"User was successful login!",{userAccessToken:userToken}) 
     } catch (err) {
-        errorResponse(res,err.httpCode,err.message);
+        errorResponse(req,res,err.httpCode,err.message);
     }
 }
 
@@ -46,9 +48,9 @@ const logoutUser = async (req,res)=>{
             userId:req.user._id,
         }
       await userService.logoutProcess(filter);
-      successResponse(res,HttpCodes.OK,"User was successful logout!") 
+      successResponse(req,res,HttpCodes.OK,"User was successful logout!") 
     } catch (err) {
-        errorResponse(res,err.httpCode,err.message);
+        errorResponse(req,res,err.httpCode,err.message);
     }
 }
 

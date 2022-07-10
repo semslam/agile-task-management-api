@@ -8,7 +8,7 @@ const onBoardValidateReq = (req,res,next) =>{
         password:Joi.string().min(7).max(30).required()
       });
     const {error} = schema.validate(req.body);
-    payloadValidateErrorResponse(res,next,error); 
+    payloadValidateErrorResponse(req, res,next,error); 
 }
 
 const updateValidateReq = (req,res,next) =>{
@@ -16,7 +16,7 @@ const updateValidateReq = (req,res,next) =>{
         name: Joi.string().min(2).max(30).required(),
       });
     const {error} =  schema.validate(req.body);
-    payloadValidateErrorResponse(res,next,error); 
+    payloadValidateErrorResponse(req, res,next,error); 
 }
 
 const loginValidateReq = (req,res,next) =>{
@@ -25,7 +25,7 @@ const loginValidateReq = (req,res,next) =>{
         password:Joi.string().min(7).max(30).required()
       });
     const {error} =  schema.validate(req.body);
-    payloadValidateErrorResponse(res,next,error); 
+    payloadValidateErrorResponse(req, res,next,error); 
 }
 
 module.exports = {

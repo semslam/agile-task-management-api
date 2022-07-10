@@ -8,19 +8,19 @@ const create = async (query) => {
     if(!todo)throw new ErrorHandler("Can not create TODO record!",ErrorCodes.MISSING_PARAMETER);
     return todo;
   } catch (err) {
-    throw new ErrorHandler(err.message,err.httpCode || ErrorCodes.INTERNAL_ERROR);
+    throw new ErrorHandler(err.message.includes("duplicate")?"The todo record already exist!":err.message,err.httpCode || ErrorCodes.UNPROCESSABLE);
   }
 };
 const update = async (filter, update) => {
   try {
     const todo = await todoSchema.findOneAndUpdate(filter, update, {
       returnOriginal: false,
-    });
+    }); 
     console.log(todo);
-    if (!todo) throw new ErrorHandler("TODO record can not be updated!",ErrorCodes.MISSING_PARAMETER);
+    if (!todo) throw new ErrorHandler("TODO record doesn't exist and it can't be update!",ErrorCodes.MISSING_PARAMETER);
     return todo;
   } catch (err) {
-    throw new ErrorHandler(err.message,err.httpCode || ErrorCodes.INTERNAL_ERROR);
+    throw new ErrorHandler(err.message.includes("Cast to ObjectId")?"The todo record doesn't exist!":err.message,err.httpCode || ErrorCodes.UNPROCESSABLE);
   }
 };
 
@@ -30,16 +30,17 @@ const findOne = async (query) => {
     if (!todo) throw new ErrorHandler("TODO record doesn't exist!",ErrorCodes.MISSING_PARAMETER);
     return todo;
   } catch (err) {
-    throw new ErrorHandler(err.message,err.httpCode || ErrorCodes.INTERNAL_ERROR);
+    throw new ErrorHandler(err.message,err.httpCode || ErrorCodes.NOT_FOUND);
   }
 };
 const find = async (query) => {
   try {
     const todo = await todoSchema.find(query);
+    console.log(todo)
     if (!todo) throw new ErrorHandler("TODO records is empty!",ErrorCodes.MISSING_PARAMETER);
     return todo;
   } catch (err) {
-    throw new ErrorHandler(err.message,err.httpCode || ErrorCodes.INTERNAL_ERROR);
+    throw new ErrorHandler(err.message,err.httpCode || ErrorCodes.NOT_FOUND);
   }
 };
 const del = async (query) => {
@@ -49,7 +50,7 @@ const del = async (query) => {
       throw new ErrorHandler("Can't delete TODO record!",ErrorCodes.MISSING_PARAMETER);
     return todo;
   } catch (err) {
-    throw new ErrorHandler(err.message,err.httpCode || ErrorCodes.INTERNAL_ERROR);
+    throw new ErrorHandler(err.message,err.httpCode || ErrorCodes.UNPROCESSABLE);
   }
 };
 

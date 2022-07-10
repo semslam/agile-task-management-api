@@ -30,14 +30,13 @@ class App {
     // parse requests of content-type - application/x-www-form-urlencoded
     this.app.use(express.urlencoded({ extended: true}));   /* bodyParser.urlencoded() is deprecated */
     
-    this.app.get('/', (req, res) => {
-        successResponse(res,HttpCodes.OK,"Welcome to todo list API");
+    this.app.get("/", (req, res) => {
+        successResponse(req, res,HttpCodes.OK,"Welcome to todo list API");
     });
-     
-    require("../routes")(this.app);
-    
-    this.app.all('*', (req, res) => {
-     errorResponse(res,ErrorCodes.NOT_FOUND,"Not Found")
+    const PATH = Config.API_BASE;
+    this.app.use(PATH,require("../api/routes")())
+    this.app.all("*",async (req, res) => {
+     errorResponse(req, res,ErrorCodes.NOT_FOUND,"Not Found")
     });
 
   }
