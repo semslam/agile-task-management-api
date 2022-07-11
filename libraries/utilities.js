@@ -203,8 +203,8 @@ const isObjectContainUndefine =(obj)=>{
   let isUndefined = 0;
   if(isObjEmpty(obj)) return isUndefined;
   for (const key in obj) {
-   if (obj[key] !== undefined) {
-    isUndefined =+1;
+   if (obj[key] === undefined) {
+    isUndefined +=1;
    }
  }
  return isUndefined;

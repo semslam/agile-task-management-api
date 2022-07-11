@@ -4,16 +4,14 @@ const ErrorHandler = require("../libraries/errorHandler")
 const {ErrorCodes} = require("../libraries/enums");
 const {hashPassword,isPasswordMatch}= require("../libraries/passwordHashing");
 const {generateAccessToken} = require("../libraries/jwtEncryptAndDecrypt");
+const User = require("../models/entities/user")
 
 const insert = async (user)=>{
     if(isObjEmpty(user)){
         throw new ErrorHandler("USER object is empty!!",ErrorCodes.MISSING_PARAMETER)
     }
     user.password = await hashPassword(user.password) 
-    const usr =  await create(user);
-    delete usr.password
-    console.log(usr.password)
-    return usr;
+   return  new User(await create(user)) ;
 }
 
 const login = async (query)=>{
@@ -24,16 +22,17 @@ const login = async (query)=>{
     if(isObjEmpty(user)){
         throw new ErrorHandler("User record not found!",ErrorCodes.NOT_FOUND)
     }
+    
    const result = await isPasswordMatch(query.password,user.password)
    if(!result)throw new ErrorHandler("Wrong user login details!",ErrorCodes.FORBIDDEN)
    const customUser = {
-    id:user._id,  
+    id:user.id,  
     username:user.username,
     user:user.name
    }
    const token = generateAccessToken(customUser)
    if(!isString(token))throw new ErrorHandler("Missing access token!",ErrorCodes.FORBIDDEN);
-   await updateOne({_id:user._id},{isActive:true,modifiedAt: new Date()});
+   await updateOne({_id:user.id},{isActive:true,modifiedAt: new Date()});
    return token;
 }
 
@@ -42,9 +41,7 @@ const updateOne = async (filter,user)=>{
         throw new ErrorHandler("USER object is empty!!",ErrorCodes.MISSING_PARAMETER)
     }
     user.modifiedAt = new Date();
-    return await update(filter,user);
-    
-
+    return  new User(await update(filter,user));
 }
 
 const logoutProcess = async (filter)=>{
@@ -62,7 +59,7 @@ const findOneByParams = async (query)=>{
     if(isObjEmpty(query)){
         throw new ErrorHandler("USER object is empty!!",ErrorCodes.MISSING_PARAMETER)
     }
-    return await findOne(query);
+    return new User(await findOne(query));
 }
 const deleteOne = async (query)=>{
     if(isObjEmpty(query)){

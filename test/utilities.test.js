@@ -213,9 +213,9 @@ const {isEmpty,
         expect(isObjectContainUndefine({})).not.toBeTruthy();
         expect(isObjectContainUndefine({})).toBeFalsy();
         expect(isObjectContainUndefine({})).toBe(0);
-        expect(isObjectContainUndefine(obj2)).toBe(1);
-        expect(isObjectContainUndefine(obj)).not.toBeFalsy();
-        expect(isObjectContainUndefine(obj)).toBe(1);
+        expect(isObjectContainUndefine(obj2)).toBe(0);
+        expect(isObjectContainUndefine(obj)).not.toBeTruthy();
+        expect(isObjectContainUndefine(obj)).toBe(0);
         expect(isObjectContainUndefine(1234)).toBeFalsy();
         expect(isObjectContainUndefine([])).toBeFalsy();
       });

@@ -11,7 +11,7 @@ const {isObjEmpty,isEmpty,isString,isObject,isObjectContainUndefine} = require("
 const generateAccessToken =(data) =>{
         if(isEmpty(data) || !isObject(data) || isObjEmpty(data))
           throw new Error("The jwt token object can't be empty!!")
-        
+  
         if(isObjectContainUndefine(data)) throw new Error("The jwt token object can't contain undefine property!!")
         return jwt.sign(data,ACCESS_TOKEN, { expiresIn: SET_EXPIRE})// 60, "2 days", "10h", "7d" "50s" "365 days" 
   }

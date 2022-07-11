@@ -68,7 +68,7 @@ it("POST, User Login , Should return a 200",async ()=>{
         expect(statusMessage).toEqual("Successful")
         expect(message).toEqual('Todo was successful created!!');
         expect(code).toBe(201);
-        todoId = data._id
+        todoId = data.id
         console.log(todoId)
     })
 

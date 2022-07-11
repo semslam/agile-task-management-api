@@ -40,7 +40,7 @@ describe('passwordHashing Test', () => {
         }
 
         try {
-            expect(generateAccessToken(obj2)).toBeFalsy();
+            expect(generateAccessToken(obj2)).toBeTruthy();
         } catch (err) {
             expect(err.message).toBe("The jwt token object can't contain undefine property!!");
         }
