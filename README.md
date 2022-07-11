@@ -79,7 +79,7 @@ Response Example:
     }
 }
 ```
-The user must add a header signature to authorize the endpoint, set authorization bearer with the user token e.g. 
+The user must add a header signature to the authorize endpoint, and set authorization bearer with the user access token e.g. 
 Authorization : `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyY2JjMjRlNGE5ODU1OTViZTA0OTY5MSIsInVzZXJuYW1lIjoib2xhbnJld2FqdWkyMDIwQGdtYWlsLmNvbSIsInVzZXIiOiJJYnIgU2VtaXUiLCJpYXQiOjE2NTc1MjA3NTgsImV4cCI6MTY4OTA1Njc1OH0.5m7mssN2FaAAIAq5OL0oWWOJQNkz6cwlLoxI4mQgUcw`
 
 3. The Update user endpoint allows the user to update their profile.
@@ -174,7 +174,7 @@ Payload Example:
     "summary": "User CRUD",
     "description": "Implement CRUD User API with Node.js, MongoDB and GraphQL",
     "cardColor":  "#cddc39" || #32a852 || #32a852 || #3255a8
-    "stage": "progress" || "pending"|| || "review" : "completed"
+    "stage": "progress" || "pending"|| || "review" || "completed"
 }
 ```
 Response Example:
