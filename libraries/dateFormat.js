@@ -5,7 +5,8 @@ const {isNumber} = require("../libraries/utilities")
    * @returns return number
    */
   const convertDateToTimeStamp = (strDateTime)=>{
-   if(!(strDateTime instanceof Date)) throw new Error("This function only accept data instance!")
+   if(!(strDateTime instanceof Date)) 
+      throw new Error("This function only accept data instance!")
     const datum = Date.parse(strDateTime);
    return datum/1000;
   }
@@ -15,7 +16,8 @@ const {isNumber} = require("../libraries/utilities")
  * @returns return data instance
  */
   const convertTimeStampToDate = (unixTimestamp)=>{
-    if(!isNumber(unixTimestamp)) throw new Error("This value is not a number")
+    if(!isNumber(unixTimestamp)) 
+      throw new Error("This value is not a number")
     const milliseconds = unixTimestamp * 1000; // 1575909015000
     return new Date(milliseconds);
   }

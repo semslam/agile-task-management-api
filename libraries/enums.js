@@ -45,8 +45,13 @@ const ErrorCodes = Object.freeze({
     PENDING:"pending",PROGRESS:"progress",REVIEW:"review",COMPLETE:"completed"
   })
 
+  const Priorities = Object.freeze({
+    IMPORTANT_NOT_URGENT:"Important not urgent",URGENT_AND_IMPORTANT:"Urgent and important",NOT_URGENT_NOT_IMPORTANT:"Not Urgent not important ",URGENT_NOT_IMPORTANT:"Urgent not important"
+  })
+
 module.exports ={
 ErrorCodes,
 HttpCodes,
-Stages
+Stages,
+Priorities
 }

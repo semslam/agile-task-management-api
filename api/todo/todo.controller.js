@@ -72,11 +72,10 @@ const deleteTodo = async (req,res)=>{
     }
 }
 
-
 module.exports = {
     createTodo,
     updateTodo,
     getTodo,
     getAllTodo,
-    deleteTodo
+    deleteTodo,
 }

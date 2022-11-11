@@ -1,10 +1,24 @@
 const path = require("path");
-const {isObjectContainUndefine} = require("../libraries/utilities");
 require('dotenv').config({path: path.resolve(__dirname, `../env/.${process.env.NODE_ENV}.env`)});
 
-const {HOST,API_BASE,PORT,ACCESS_TOKEN_SECRET,SET_EXPIRE,EV,DATABASE_CONFIG,MONGODB_OPTION,USER_COLLECTION,TODO_COLLECTION} = process.env;
+function clean(value) {
+    const FALSY_VALUES = ['', 'null', 'false', 'undefined'];
+    if (!value || FALSY_VALUES.includes(value)) {
+      return undefined;
+    }
+    return true;
+  }
+  
+  const env = {
+    isProduction: process.env.NODE_ENV === 'prod',
+    isStaging: process.env.NODE_ENV === 'stg',
+    isTest: process.env.NODE_ENV === 'test',
+    isDev: process.env.NODE_ENV === 'dev'
+  };
 
-if(isObjectContainUndefine({HOST,API_BASE,PORT,ACCESS_TOKEN_SECRET,SET_EXPIRE,EV,DATABASE_CONFIG,MONGODB_OPTION,USER_COLLECTION,TODO_COLLECTION})){
+const {HOST,API_BASE,PORT,ACCESS_TOKEN_SECRET,SET_EXPIRE,EV,DATABASE_CONFIG,MONGODB_OPTION,USER_COLLECTION,TODO_COLLECTION,GROUP_COLLECTION,CHAT_COLLECTION,MESSAGE_COLLECTION } = process.env;
+
+if(!clean(Object.values(env).includes(true))){
     console.log('App can not start, Missing NODE_ENV configurations file!!!!')
     process.exit(1);
 }
@@ -24,6 +38,9 @@ const Config = Object.freeze({
         OPTION:JSON.parse(MONGODB_OPTION),
         USER:USER_COLLECTION,
         TODO:TODO_COLLECTION,
+        GROUP:GROUP_COLLECTION,
+        CHAT: CHAT_COLLECTION,
+        MESSAGE:MESSAGE_COLLECTION
     }
 })
 
