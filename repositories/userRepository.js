@@ -54,6 +54,8 @@ const del = async (query) =>{
     } 
 }
 
+const user = userSchema;
+
 module.exports = {
-    create,update,findOne,find,del
+    create,update,findOne,find,del,user
 }

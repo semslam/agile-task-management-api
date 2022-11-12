@@ -1,11 +1,11 @@
 const express = require("express");
 const cors = require("cors");
 const {Config} = require("./bootstrap");
+const http = require("http")
 const connectDB = require("./mongodb");
 const {successResponse, errorResponse} = require("../response/responseHandler");
 const {HttpCodes, ErrorCodes} = require("../libraries/enums");
 const socketio = require("socket.io");
-const WebSockets = require("../libraries/webSockets");
 
 
 
@@ -50,13 +50,7 @@ class App {
     this.app.use(PATH,require("../api/routes")())
     this.app.all("*",async (req, res) => {
      errorResponse(req, res,ErrorCodes.NOT_FOUND,"Not Found")
-    });
-
-   
-    /** Create socket connection */
-    global.io = socketio.listen(this.server);
-    global.io.on('connection', WebSockets.connection)
-    /** Listen on provided port, on all network interfaces. */
+    });  
    
   }
 }
