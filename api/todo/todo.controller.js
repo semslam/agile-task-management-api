@@ -18,10 +18,9 @@ const createTodo = async (req, res)=>{
 const updateTodo = async (req,res)=>{
     try {
 
-        if(isEmpty(req.params.id) || isNumeric(req.params.id)) errorResponse(req,res,ErrorCodes.MISSING_PARAMETER,"The todo id must not be empty or a number!");
         const filter ={
             userId:req.user.id,
-            _id:req.params.id
+            _id:req.body.id
         }
         const todoResult = await todoService.updateOne(filter,req.body);
         successResponse(req,res,HttpCodes.OK,"Todo was successful updated!!",todoResult);
@@ -34,7 +33,9 @@ const getTodo = async (req,res)=>{
     
     try {
 
-        if(isEmpty(req.params.id) || isNumeric(req.params.id)) errorResponse(req,res,ErrorCodes.MISSING_PARAMETER,"The todo id must not be empty or a number!");
+        if(isEmpty(req.params.id) || isNumeric(req.params.id)) 
+            errorResponse(req,res,ErrorCodes.MISSING_PARAMETER,"The todo id must not be empty or a number!");
+            
         const filter ={
             userId:req.user.id,
             _id:req.params.id

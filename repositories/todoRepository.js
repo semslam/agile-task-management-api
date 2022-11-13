@@ -54,10 +54,13 @@ const del = async (query) => {
   }
 };
 
+const TodoModel = todoSchema;
+
 module.exports = {
   create,
   update,
   findOne,
   find,
   del,
+  TodoModel
 };

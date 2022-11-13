@@ -46,7 +46,7 @@ const ErrorCodes = Object.freeze({
   })
 
   const Priorities = Object.freeze({
-    IMPORTANT_NOT_URGENT:"Important not urgent",URGENT_AND_IMPORTANT:"Urgent and important",NOT_URGENT_NOT_IMPORTANT:"Not Urgent not important ",URGENT_NOT_IMPORTANT:"Urgent not important"
+    IMPORTANT_NOT_URGENT:"Important-Not-Urgent",URGENT_AND_IMPORTANT:"Urgent-And-Important",NOT_URGENT_NOT_IMPORTANT:"Not-Urgent-Not-Important ",URGENT_NOT_IMPORTANT:"Urgent-Not-Important"
   })
 
 module.exports ={

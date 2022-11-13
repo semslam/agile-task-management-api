@@ -15,7 +15,7 @@ const insert = async (group)=>{
 const updateOne = async (filter,group)=>{
     if(isObjEmpty(filter) || isObjEmpty(group)) 
         throw new ErrorHandler("GROUP object is empty!!",ErrorCodes.MISSING_PARAMETER)
-
+    // group.totalPointAssignable
     group.modifiedAt = new Date();
     return new Group(await update(filter,group));
 }

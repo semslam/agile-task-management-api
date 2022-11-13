@@ -22,7 +22,18 @@ const {isNumber} = require("../libraries/utilities")
     return new Date(milliseconds);
   }
 
+/**
+ * Check the end date grater than start date
+ * @param {String} endDate 
+ * @param {String} startDate 
+ * @returns return boolean
+ */
+  const isEndIsGreaterThanStartDate = (endDate,startDate)=>{
+   return (Date.parse(startDate) < Date.parse(endDate))? false:true;
+  }
+
  module.exports ={
     convertDateToTimeStamp,
-    convertTimeStampToDate
+    convertTimeStampToDate,
+    isEndIsGreaterThanStartDate
   }

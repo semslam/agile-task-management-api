@@ -2,7 +2,8 @@ module.exports = class Group{
     constructor(group){
     this.id = group._id
     this.adminId = group.adminId
-    this.topic = group.topic,
+    this.topic = group.topic
+    this.totalPointAssignable = group.totalPointAssignable
     this.totalPoint = group.totalPoint
     this.totalNumberOfTicket = group.totalNumberOfTicket
     this.totalNumberOfTicketCreated = group.totalNumberOfTicketCreated

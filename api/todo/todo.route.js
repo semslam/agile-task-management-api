@@ -5,7 +5,7 @@ const express = require("express");
 module.exports = () => {
     const router = express.Router();
     router.post("/create/",authenticateToken,addTodoValidateReq,todoController.createTodo);
-    router.put("/update/:id",authenticateToken,updateTodoValidateReq,todoController.updateTodo);
+    router.put("/update/",authenticateToken,updateTodoValidateReq,todoController.updateTodo);
     router.get("/get/:id",authenticateToken,todoController.getTodo);
     router.get("/get-all/",authenticateToken,todoController.getAllTodo);
     router.delete("/delete/:id",authenticateToken,todoController.deleteTodo);

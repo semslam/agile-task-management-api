@@ -13,6 +13,7 @@ const create = async (query) => {
 };
 const update = async (filter, update) => {
   try {
+    console.log(filter,update);
     const group = await groupSchema.findOneAndUpdate(filter, update, {
       returnOriginal: false,
     }); 
