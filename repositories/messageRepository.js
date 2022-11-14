@@ -53,11 +53,12 @@ const del = async (query) => {
     throw new ErrorHandler(err.message,err.httpCode || ErrorCodes.UNPROCESSABLE);
   }
 };
-
+const MessageModel = messageSchema;
 module.exports = {
   create,
   update,
   findOne,
   find,
   del,
+  MessageModel
 };

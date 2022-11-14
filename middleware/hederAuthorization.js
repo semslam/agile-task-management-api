@@ -7,10 +7,11 @@ const {decryptToken} = require("../libraries/jwtEncryptAndDecrypt")
 const  authenticateToken = async (req, res, next)=> {
   try {
         const token = getToken(req, res);
-        
+    
         const user = await decryptToken(token);
         //fetch user access token secret from database
         //This approach is bad, it can slow the user request
+      
         const fetchUser = await findOneByParams({username:user.username});
         if(!fetchUser.isActive){
             errorResponse(req, res,ErrorCodes.UNAUTHORIZED, "User is not Unauthorized, Please login!");
