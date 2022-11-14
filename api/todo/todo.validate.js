@@ -7,6 +7,7 @@ const {IMPORTANT_NOT_URGENT,URGENT_AND_IMPORTANT,NOT_URGENT_NOT_IMPORTANT,URGENT
 const addTodoValidateReq = (req,res,next) =>{
     const schema = Joi.object({
         groupId:Joi.string().alphanum().required(),
+        ticketNumber:Joi.string().alphanum().min(4).max(6).required(),
         summary: Joi.string().min(20).max(150).required(),
         description: Joi.string().min(20).max(8000).required(),
         priorities:Joi.string().valid(IMPORTANT_NOT_URGENT,URGENT_AND_IMPORTANT,NOT_URGENT_NOT_IMPORTANT,URGENT_NOT_IMPORTANT).required(),
@@ -24,6 +25,8 @@ const updateTodoValidateReq = (req,res,next) =>{
     const schema = Joi.object({
         id:Joi.string().alphanum().required(),
         groupId:Joi.string().alphanum().required(),
+        // ticketNumber:Joi.number().integer().min(1000).max(9999999999).optional(),
+        ticketNumber:Joi.string().alphanum().min(4).max(6).optional(),
         summary: Joi.string().alphanum().min(2).max(65).optional(),
         description: Joi.string().alphanum().min(15).max(8000).optional(),
         priorities:Joi.string().alphanum().valid(IMPORTANT_NOT_URGENT,URGENT_AND_IMPORTANT,NOT_URGENT_NOT_IMPORTANT,URGENT_NOT_IMPORTANT).optional(),

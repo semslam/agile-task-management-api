@@ -1,18 +1,11 @@
 
-module.exports = class Messages{
-    constructor(messages){
-    this.id = messages._id
-    this.sender = messages.sender // users object
-    this.content = messages.content
-    this.chat = messages.chat // chat object
-    this.readBy = [] // array users object
-    this.createdAt = messages.createdAt
+module.exports = class Message{
+    constructor(message){
+    this.id = message._id
+    this.sender = message.sender // users object
+    this.content = message.content
+    this.chat = message.chat // chat object
+    this.readBy = message.readBy // users object
+    this.createdAt = message.createdAt
     }
 }
-
-// {
-//     sender: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-//     content: { type: String, trim: true },
-//     chat: { type: mongoose.Schema.Types.ObjectId, ref: "Chat" },
-//     readBy: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
-//   },

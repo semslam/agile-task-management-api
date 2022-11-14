@@ -2,8 +2,6 @@ const chatSchema = require("../models/mongodb/chatSchema");
 const ErrorHandler = require("../libraries/errorHandler");
 const { ErrorCodes } = require("../libraries/enums");
 
-const chatSchema = chatSchema;
-
 const create = async (query) => {
   try {
     const chat = await chatSchema.create(query);
@@ -56,11 +54,12 @@ const del = async (query) => {
   }
 };
 
+const ChatModel = chatSchema;
 module.exports = {
   create,
   update,
   findOne,
   find,
   del,
-  chatSchema
+  ChatModel
 };

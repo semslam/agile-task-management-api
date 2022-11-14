@@ -1,29 +1,32 @@
 const Joi = require("joi");
 const {payloadValidateErrorResponse} = require("../../response/responseHandler");
-const {Stages,Priorities} = require("../../libraries/enums")
 
-const addGroupValidateReq = (req,res,next) =>{
+const createGroupChatValidateReq = (req,res,next) =>{
     const schema = Joi.object({
-        name: Joi.string().alphanum().min(2).max(65).required(),
-        contentType:Joi.string().alphanum().valid("text","file","video","audio","rawData").required(),
-        priorities:Joi.string().alphanum().valid(Priorities.IMPORTANT_NOT_URGENT,Priorities.URGENT_AND_IMPORTANT,Priorities.NOT_URGENT_NOT_IMPORTANT,Priorities.URGENT_NOT_IMPORTANT).required(),
-        totalPoint:Joi.number().positive().greater(19).required(),
-        totalNumberOfTicket:Joi.number().positive().greater(1).required(),
-        startDate: Joi.date().format('YYYY-MM-DDTHH:mm:ss').required(),
-        dueDate: Joi.date().format('YYYY-MM-DDTHH:mm:ss').required()
+        groupId:Joi.string().alphanum().required(),
+        users:Joi.array().items(Joi.string().alphanum().required()).required(),
+        chatName:Joi.string().min(2).max(65).required(),
+        isGroupChat:Joi.boolean().valid(true).required()
       });
     const {error} = schema.validate(req.body);
-    payloadValidateErrorResponse(req, res,next,error); 
+    payloadValidateErrorResponse(req,res,next,error); 
 }
 
-const updateGroupValidateReq = (req,res,next) =>{
+const createOneOnOneChatValidateReq = (req,res,next) =>{
+  const schema = Joi.object({
+      userId:Joi.string().alphanum().required(),
+      chatName:Joi.string().min(2).max(65).required(),
+      isGroupChat:Joi.boolean().valid(false).required()
+    });
+  const {error} = schema.validate(req.body);
+  payloadValidateErrorResponse(req,res,next,error); 
+}
+
+const updateChatValidateReq = (req,res,next) =>{
     const schema = Joi.object({
-        name: Joi.string().alphanum().min(2).max(65).options(),
-        priorities:Joi.string().alphanum().valid(Priorities.IMPORTANT_NOT_URGENT,Priorities.URGENT_AND_IMPORTANT,Priorities.NOT_URGENT_NOT_IMPORTANT,Priorities.URGENT_NOT_IMPORTANT).optional(),
-        totalPoint:Joi.number().positive().greater(19).required(),
-        totalNumberOfTicket:Joi.number().positive().greater(1).options(),
-        startDate: Joi.date().format('YYYY-MM-DDTHH:mm:ss').options({ convert: false }),
-        dueDate: Joi.date().format('YYYY-MM-DDTHH:mm:ss').options({ convert: false })
+        id:Joi.string().alphanum().options(),
+        users:Joi.array().items(Joi.string().alphanum().required()).options(),
+        chatName:Joi.string().alphanum().min(2).max(65).options(),
       });
     const {error} = schema.validate(req.body);
     payloadValidateErrorResponse(req,res,next,error); 
@@ -31,6 +34,7 @@ const updateGroupValidateReq = (req,res,next) =>{
 
 
 module.exports = {
-  addGroupValidateReq,
-  updateGroupValidateReq
+  createGroupChatValidateReq,
+  createOneOnOneChatValidateReq,
+  updateChatValidateReq
 }

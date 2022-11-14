@@ -2,13 +2,29 @@ const chatServices = require("../../services/chatServices");
 const {successResponse,errorResponse} = require("../../response/responseHandler");
 const {HttpCodes,ErrorCodes} = require("../../libraries/enums")
 const {isEmpty, isNumeric} = require("../../libraries/utilities")
-const createChat = async (req, res)=>{
+
+const createGroupChat = async (req, res)=>{
     try {
         
         let chat = req.body;
-        chat.userId = req.user.id;
+        chat.users = [req.user.id,...chat.users];
+        chat.groupAdmin = req.user.id;
         const chatResult = await chatServices.insert(chat);
-        successResponse(req,res,HttpCodes.CREATED,"Chat was successful created!!",chatResult);
+        successResponse(req,res,HttpCodes.CREATED,"Group chat was successful created!!",chatResult);
+    } catch (err) {
+        errorResponse(req,res,err.httpCode || ErrorCodes.FORBIDDEN,err.message);
+    }
+}
+
+const createOneToOneChat = async (req, res)=>{
+    try {
+        
+        let chat = req.body;
+        chat.users =  [req.user.id,chat.userId];
+        chat.groupAdmin = req.user.id
+        delete chat.userId
+        const chatResult = await chatServices.insert(chat);
+        successResponse(req,res,HttpCodes.CREATED,"One to one chat was successful created!!",chatResult);
     } catch (err) {
         errorResponse(req,res,err.httpCode || ErrorCodes.FORBIDDEN,err.message);
     }
@@ -58,7 +74,7 @@ const getAllChats = async (req,res)=>{
     }
 }
 
-const deleteChat = async (req,res)=>{
+const removeChat = async (req,res)=>{
     try {
         if(isEmpty(req.params.id) || isNumeric(req.params.id)) errorResponse(req,res,ErrorCodes.MISSING_PARAMETER,"The group id must not be empty or a number!");
         const filter ={
@@ -75,9 +91,11 @@ const deleteChat = async (req,res)=>{
 
 
 module.exports = {
-    createGroup,
-    updateGroup,
-    getGroup,
-    getAllGroup,
-    deleteGroup,
+    createGroupChat,
+    createOneToOneChat,
+    updateChat,
+    getChat,
+    getAllChats,
+    removeChat
+
 }

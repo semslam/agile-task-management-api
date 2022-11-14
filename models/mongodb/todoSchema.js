@@ -7,6 +7,7 @@ const {PENDING,PROGRESS,REVIEW,COMPLETE} = Stages;
 const {IMPORTANT_NOT_URGENT,URGENT_AND_IMPORTANT,NOT_URGENT_NOT_IMPORTANT,URGENT_NOT_IMPORTANT} = Priorities;
 const todoSchema = mongoose.Schema({
     groupId:{type:mongoose.Schema.Types.ObjectId, ref: MONGODB.GROUP, required: true},
+    ticketNumber:{ type:String, required: true},
     summary: {type: String,required: true,unique: true},
     description: {type: String,required: true},
     priorities: {type: String,required: true, enum:[IMPORTANT_NOT_URGENT,URGENT_AND_IMPORTANT,NOT_URGENT_NOT_IMPORTANT,URGENT_NOT_IMPORTANT],default: NOT_URGENT_NOT_IMPORTANT},

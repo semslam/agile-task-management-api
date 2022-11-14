@@ -2,6 +2,7 @@ module.exports = class Todo{
     constructor(todo){
         this.id = todo._id
         this.groupId  = todo.groupId
+        this.ticketNumber = todo.ticketNumber
         // this.contentType = todo.contentType
         this.priorities = todo.priorities;
         this.summary = todo.summary;
