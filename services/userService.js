@@ -1,10 +1,27 @@
-const {create,update,findOne,del} = require("../repositories/userRepository");
+const {create,update,findOne,del,UserModel} = require("../repositories/userRepository");
 const {isObjEmpty,isString} = require("../libraries/utilities");
 const ErrorHandler = require("../libraries/errorHandler")
 const {ErrorCodes} = require("../libraries/enums");
 const {hashPassword,isPasswordMatch}= require("../libraries/passwordHashing");
 const {generateAccessToken} = require("../libraries/jwtEncryptAndDecrypt");
 const User = require("../models/entities/user")
+
+
+const search = async (keyword,userId)=>{
+    if(isObjEmpty(keyword))
+        throw new ErrorHandler("Keyword is empty!!",ErrorCodes.MISSING_PARAMETER)
+
+        const search = keyword
+        ? {
+            $or: [
+              { name: { $regex: keyword, $options: "i" } },
+              { email: { $regex: keyword, $options: "i" } },
+            ],
+          }
+        : {};
+    
+    return new User(await UserModel.find(search).find({ _id: { $ne: userId } }));
+}
 
 const insert = async (user)=>{
     if(isObjEmpty(user)){
@@ -69,4 +86,12 @@ const deleteOne = async (query)=>{
 }
 
 
-module.exports = {insert,updateOne,findOneByParams,deleteOne,login,logoutProcess}
+module.exports = {
+    search,
+    insert,
+    updateOne,
+    findOneByParams,
+    deleteOne,
+    login,
+    logoutProcess
+}

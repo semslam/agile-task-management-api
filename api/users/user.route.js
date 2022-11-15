@@ -8,6 +8,8 @@ module.exports = () => {
     router.post("/create/",validator.onBoardValidateReq,userController.createUser);
     router.put("/update/",authenticateToken,validator.updateValidateReq,userController.updateUser);
     router.post("/login/",validator.loginValidateReq,userController.loginUser);
-    router.get("/logout/",authenticateToken,userController.logoutUser);  
+    router.get("/logout/",authenticateToken,userController.logoutUser);
+    router.get("/search/",authenticateToken,userController.searchUsers);
+
     return router;
   };

@@ -2,6 +2,17 @@ const userService = require("../../services/userService");
 const {successResponse,errorResponse} = require("../../response/responseHandler");
 const {HttpCodes} = require("../../libraries/enums")
 
+
+const searchUsers = async (req, res)=>{
+    try {
+
+        const users = await userService.search(req.query.search, req.user.id);
+        successResponse(req, res,HttpCodes.CREATED,"Search successful!!",users)
+    } catch (error) {
+        errorResponse(req,res,err.httpCode,err.message);
+    }
+}
+
 const createUser = async (req, res)=>{
 
     try {
@@ -54,6 +65,7 @@ const logoutUser = async (req,res)=>{
 
 
 module.exports = {
+    searchUsers,
     createUser,
     loginUser,
     logoutUser,
