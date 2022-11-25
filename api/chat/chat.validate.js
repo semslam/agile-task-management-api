@@ -14,7 +14,7 @@ const createGroupChatValidateReq = (req,res,next) =>{
 const createOneOnOneChatValidateReq = (req,res,next) =>{
   const schema = Joi.object({
       userId:Joi.string().alphanum().required(),
-      chatName:Joi.string().min(2).max(65).required()
+      chatName:Joi.string().min(2).max(65).optional()
     });
   const {error} = schema.validate(req.body);
   payloadValidateErrorResponse(req,res,next,error); 

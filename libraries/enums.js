@@ -45,6 +45,10 @@ const ErrorCodes = Object.freeze({
     PENDING:"pending",PROGRESS:"progress",REVIEW:"review",COMPLETE:"completed"
   })
 
+  const Gender = Object.freeze({
+    MALE:"male",FEMALE:"female"
+  })
+
   const Priorities = Object.freeze({
     IMPORTANT_NOT_URGENT:"Important-Not-Urgent",URGENT_AND_IMPORTANT:"Urgent-And-Important",NOT_URGENT_NOT_IMPORTANT:"Not-Urgent-Not-Important ",URGENT_NOT_IMPORTANT:"Urgent-Not-Important"
   })
@@ -53,5 +57,6 @@ module.exports ={
 ErrorCodes,
 HttpCodes,
 Stages,
-Priorities
+Priorities,
+Gender
 }

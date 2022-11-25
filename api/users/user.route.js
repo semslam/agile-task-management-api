@@ -9,7 +9,8 @@ module.exports = () => {
     router.put("/update/",authenticateToken,validator.updateValidateReq,userController.updateUser);
     router.post("/login/",validator.loginValidateReq,userController.loginUser);
     router.get("/logout/",authenticateToken,userController.logoutUser);
-    router.get("/search/",authenticateToken,userController.searchUsers);
+    router.get("/",authenticateToken,userController.searchUsers);
+    router.get("/image/",authenticateToken,userController.uploadImage);
 
     return router;
   };

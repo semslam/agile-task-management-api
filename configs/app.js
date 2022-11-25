@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const {Config} = require("./bootstrap");
 const http = require("http")
+const multer = require('multer');
 const connectDB = require("./mongodb");
 const {successResponse, errorResponse} = require("../response/responseHandler");
 const {HttpCodes, ErrorCodes} = require("../libraries/enums");
@@ -25,10 +26,19 @@ class App {
   }
 
  config() {
+
+   const upload = multer({
+      limits: {
+        fileSize: 4 * 1024 * 1024,
+      },
+      abortOnLimit: true,
+    });
+    
     const corsOptions = {
-        origin:this.ORIGIN
+        origin: `http://localhost:3000`
       };
     this.app.use(cors(corsOptions));
+    this.app.use(upload.single('image'))
 
     // parse requests of content-type - application/json
     this.app.use(express.json());  /* bodyParser.json() is deprecated */

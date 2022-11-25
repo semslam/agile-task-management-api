@@ -1,5 +1,5 @@
 class WebSockets {
-    users = [];
+    // users = [];
     // connection(client) {
     //   // event fired when the chat room is disconnected
     //   client.on("disconnect", () => {
@@ -25,7 +25,8 @@ class WebSockets {
     connection(socket){
       console.log("Connected to socket.io");
       socket.on("setup", (userData) => {
-        socket.join(userData._id);
+        console.log(userData)
+        socket.join(userData.id);
         socket.emit("connected");
       });
     
@@ -42,28 +43,28 @@ class WebSockets {
         if (!chat.users) return console.log("chat.users not defined");
     
         chat.users.forEach((user) => {
-          if (user._id == newMessageRecieved.sender._id) return;
+          if (user.id == newMessageRecieved.sender.id) return;
     
-          socket.in(user._id).emit("message recieved", newMessageRecieved);
+          socket.in(user.id).emit("message recieved", newMessageRecieved);
         });
       });
     
       socket.off("setup", () => {
         console.log("USER DISCONNECTED");
-        socket.leave(userData._id);
+        socket.leave(userData.id);
       });
     }
-    subscribeOtherUser(room, otherUserId) {
-      const userSockets = this.users.filter(
-        (user) => user.userId === otherUserId
-      );
-      userSockets.map((userInfo) => {
-        const socketConn = global.io.sockets.connected(userInfo.socketId);
-        if (socketConn) {
-          socketConn.join(room);
-        }
-      });
-    }
+    // subscribeOtherUser(room, otherUserId) {
+    //   const userSockets = this.users.filter(
+    //     (user) => user.userId === otherUserId
+    //   );
+    //   userSockets.map((userInfo) => {
+    //     const socketConn = global.io.sockets.connected(userInfo.socketId);
+    //     if (socketConn) {
+    //       socketConn.join(room);
+    //     }
+    //   });
+    // }
   }
   
   module.exports = new WebSockets();

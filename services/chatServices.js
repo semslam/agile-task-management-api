@@ -27,7 +27,7 @@ const insertAndFetchOneToOne = async (chat)=>{
         return isChat;
     }else{
         delete chat.userId
-
+        chat.chatName = "Friend"
         const chatRecord = new Chat(await create(chat));
         const fullChat = await ChatModel.findOne({ _id: chatRecord.id}).populate(
             "users",
