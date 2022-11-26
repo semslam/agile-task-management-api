@@ -1,7 +1,7 @@
 {
-  "name": "todo-list-api",
+  "name": "agile-task-management-api",
   "version": "1.0.0",
-  "description": "Fooji Engineer todo list api task",
+  "description": "agile  task management api",
   "main": "server.js",
   "scripts": {
     "start:dev": "export NODE_ENV=dev && nodemon server.js",
@@ -12,14 +12,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/semslam/todo-list-api.git"
+    "url": "git+https://github.com/semslam/agile-task-management-api.git"
   },
   "author": "Ibrahim Olanrewaju",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/semslam/todo-list-api/issues"
+    "url": "https://github.com/semslam/agile-task-management-api/issues"
   },
-  "homepage": "https://github.com/semslam/todo-list-api#readme",
+  "homepage": "https://github.com/semslam/agile-task-management-api#readme",
   "dependencies": {
     "@joi/date": "^2.1.0",
     "bcrypt": "^5.0.1",
